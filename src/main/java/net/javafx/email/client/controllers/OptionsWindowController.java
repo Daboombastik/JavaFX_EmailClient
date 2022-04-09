@@ -8,10 +8,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import net.javafx.email.client.constants.Controllers;
-import net.javafx.email.client.constants.Fonts;
-import net.javafx.email.client.constants.Themes;
-import net.javafx.email.client.factory.ViewFactory;
+import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.constants.Font;
+import net.javafx.email.client.constants.Theme;
+import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.manager.EmailManager;
 
 import java.net.URL;
@@ -22,15 +22,16 @@ public class OptionsWindowController extends BaseController implements Initializ
     public Button btnApply;
     public Button btnCancel;
     public Slider fontPicker;
-    public ChoiceBox<Themes> themePicker;
+    public ChoiceBox<Theme> themePicker;
 
-    public OptionsWindowController(Controllers name, EmailManager emailManager, ViewFactory viewFactory) {
-        super(name, emailManager, viewFactory);
+    public OptionsWindowController(Controller name, EmailManager emailManager, ViewService viewService) {
+        super(name, emailManager, viewService);
     }
 
     public void applyBtnAction(ActionEvent event) {
         getViewFactory().setTheme(this.themePicker.getValue());
-        getViewFactory().setFont(Fonts.values()[(int) this.fontPicker.getValue()]);
+        getViewFactory().setFont(Font.values()[(int) this.fontPicker.getValue()]);
+        getViewFactory().updateStyles();
         closeWindow();
     }
 
@@ -52,13 +53,13 @@ public class OptionsWindowController extends BaseController implements Initializ
     }
 
     private void setTheme() {
-        this.themePicker.setItems(FXCollections.observableArrayList(Themes.values()));
+        this.themePicker.setItems(FXCollections.observableArrayList(Theme.values()));
         this.themePicker.setValue(getViewFactory().getTheme());
     }
 
     private void setFont() {
         this.fontPicker.setMin(0);
-        this.fontPicker.setMax(Fonts.values().length - 1);
+        this.fontPicker.setMax(Font.values().length - 1);
         this.fontPicker.setValue(getViewFactory().getFont().ordinal());
         this.fontPicker.setMinorTickCount(0);
         this.fontPicker.setMajorTickUnit(1);
@@ -77,7 +78,7 @@ public class OptionsWindowController extends BaseController implements Initializ
         @Override
         public String toString(Double tickLabel) {
             int i = tickLabel.intValue();
-            return Fonts.values()[i].name();
+            return Font.values()[i].name();
         }
 
         @Override

@@ -1,30 +1,35 @@
-package net.javafx.email.client.factory;
+package net.javafx.email.client.services;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import net.javafx.email.client.constants.Fonts;
-import net.javafx.email.client.constants.Themes;
+import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.constants.Font;
+import net.javafx.email.client.constants.Theme;
 import net.javafx.email.client.controllers.*;
 import net.javafx.email.client.manager.EmailManager;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 
-import static net.javafx.email.client.constants.Controllers.*;
+import static net.javafx.email.client.constants.Controller.*;
 
-public class ViewFactory {
+public class ViewService {
 
-    private EmailManager emailManager;
+    private final EmailManager emailManager;
     private FXMLLoader loader;
-    private Themes theme = Themes.DEFAULT;
-    private Fonts font = Fonts.MEDIUM;
+    private Theme theme = Theme.DEFAULT;
+    private Font font = Font.MEDIUM;
+    private final ArrayList<Stage> activeStages;
 
-    public ViewFactory(EmailManager emailManager) {
+    public ViewService(EmailManager emailManager) {
         this.emailManager = emailManager;
+        this.activeStages = new ArrayList<>();
     }
 
-    public void showLoginWindow() throws IOException {
+    public void showLoginWindow() {
         BaseController controller = new LoginWindowController(LoginWindow, emailManager, this);
         showStage(controller);
     }
@@ -44,7 +49,7 @@ public class ViewFactory {
         Scene scene;
         Stage stage;
         try {
-            this.loader = new FXMLLoader(controller.getControllerURL(controller.getName()));
+            this.loader = new FXMLLoader(Controller.getURL(controller.getName()));
             this.loader.setController(controller);
             root = this.loader.load();
             scene = new Scene(root);
@@ -55,10 +60,25 @@ public class ViewFactory {
         stage = new Stage();
         stage.setScene(scene);
         stage.show();
+        activeStages.add(stage);
     }
 
     public void closeStage(Stage stage) {
         stage.close();
+        activeStages.remove(stage);
+    }
+
+    public void updateStyles() {
+        this.activeStages.forEach(stage -> {
+            Scene scene = stage.getScene();
+            try {
+                scene.getStylesheets().clear();
+                scene.getStylesheets().add(Font.getUrl(this.font).toExternalForm());
+                scene.getStylesheets().add(Theme.getUrl(this.theme).toExternalForm());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 //        Stage stage = new Stage();
 //        FXMLLoader fxmlLoader = new FXMLLoader(LoginWindowController.class.getResource("login_window.fxml"));
@@ -67,19 +87,19 @@ public class ViewFactory {
 //        stage.setScene(scene);
 //        stage.show();
 
-    public Themes getTheme() {
+    public Theme getTheme() {
         return theme;
     }
 
-    public Fonts getFont() {
+    public Font getFont() {
         return font;
     }
 
-    public void setTheme(Themes theme) {
+    public void setTheme(Theme theme) {
         this.theme = theme;
     }
 
-    public void setFont(Fonts font) {
+    public void setFont(Font font) {
         this.font = font;
     }
 }

@@ -5,8 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import net.javafx.email.client.constants.Controllers;
-import net.javafx.email.client.factory.ViewFactory;
+import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.manager.EmailManager;
 
 public class LoginWindowController extends BaseController {
@@ -15,8 +15,8 @@ public class LoginWindowController extends BaseController {
     public TextField textField;
     public PasswordField passwordField;
 
-    public LoginWindowController(Controllers name, EmailManager emailManager, ViewFactory viewFactory) {
-        super(name, emailManager, viewFactory);
+    public LoginWindowController(Controller name, EmailManager emailManager, ViewService viewService) {
+        super(name, emailManager, viewService);
     }
 
     public void loginAction(ActionEvent actionEvent) {

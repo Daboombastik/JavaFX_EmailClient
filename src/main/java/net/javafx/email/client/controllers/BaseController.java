@@ -1,47 +1,33 @@
 package net.javafx.email.client.controllers;
 
-import net.javafx.email.client.constants.Controllers;
-import net.javafx.email.client.factory.ViewFactory;
+import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.manager.EmailManager;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
 
 public abstract class BaseController {
 
-    private Controllers name;
+    private Controller name;
     private EmailManager emailManager;
-    private ViewFactory viewFactory;
+    private ViewService viewService;
 
-    public BaseController(Controllers name, EmailManager emailManager, ViewFactory viewFactory) {
+    public BaseController(Controller name, EmailManager emailManager, ViewService viewService) {
         this.name = name;
         this.emailManager = emailManager;
-        this.viewFactory = viewFactory;
+        this.viewService = viewService;
     }
 
     public BaseController() {
-    }
-
-    public URL getControllerURL(Controllers controller) throws MalformedURLException {
-        //TODO implement URL for default controller in case if error
-        return switch (controller) {
-            case LoginWindow -> Paths.get("src/main/resources/net/javafx/email/client/views/login_window.fxml").toUri().toURL();
-            case MainWindow -> Paths.get("src/main/resources/net/javafx/email/client/views/main_window.fxml").toUri().toURL();
-            case OptionWindow -> Paths.get("src/main/resources/net/javafx/email/client/views/options_window.fxml").toUri().toURL();
-            default -> null;
-        };
     }
 
     public EmailManager getEmailManager() {
         return emailManager;
     }
 
-    public ViewFactory getViewFactory() {
-        return viewFactory;
+    public ViewService getViewFactory() {
+        return viewService;
     }
 
-    public Controllers getName() {
+    public Controller getName() {
         return name;
     }
 

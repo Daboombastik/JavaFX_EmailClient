@@ -4,8 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.WebView;
-import net.javafx.email.client.constants.Controllers;
-import net.javafx.email.client.factory.ViewFactory;
+import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.manager.EmailManager;
 
 public class MainWindowController extends BaseController {
@@ -13,8 +13,8 @@ public class MainWindowController extends BaseController {
     public TableView<?> emailsTableView;
     public WebView emailWebView;
 
-    public MainWindowController(Controllers name, EmailManager emailManager, ViewFactory viewFactory) {
-        super(name, emailManager, viewFactory);
+    public MainWindowController(Controller name, EmailManager emailManager, ViewService viewService) {
+        super(name, emailManager, viewService);
     }
 
     public void optionsAction(ActionEvent actionEvent) {
