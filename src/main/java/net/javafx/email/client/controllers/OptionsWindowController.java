@@ -6,38 +6,38 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
-import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 import net.javafx.email.client.constants.Controller;
 import net.javafx.email.client.constants.Font;
 import net.javafx.email.client.constants.Theme;
 import net.javafx.email.client.services.ViewService;
-import net.javafx.email.client.manager.EmailManager;
+import net.javafx.email.client.services.EmailService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class OptionsWindowController extends BaseController implements Initializable {
 
+    public AnchorPane baseNode;
     public Button btnApply;
     public Button btnCancel;
     public Slider fontPicker;
     public ChoiceBox<Theme> themePicker;
 
-    public OptionsWindowController(Controller name, EmailManager emailManager, ViewService viewService) {
-        super(name, emailManager, viewService);
+    public OptionsWindowController(Controller name, EmailService emailService, ViewService viewService) {
+        super(name, emailService, viewService);
     }
 
     public void applyBtnAction(ActionEvent event) {
         getViewFactory().setTheme(this.themePicker.getValue());
         getViewFactory().setFont(Font.values()[(int) this.fontPicker.getValue()]);
         getViewFactory().updateStyles();
-        closeWindow();
+        closeWindow(this.baseNode);
     }
 
-
     public void cancelButtonAction(ActionEvent event) {
-        closeWindow();
+        closeWindow(this.baseNode);
     }
 
 
@@ -45,11 +45,6 @@ public class OptionsWindowController extends BaseController implements Initializ
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setTheme();
         setFont();
-    }
-
-    private void closeWindow() {
-        Stage stage = (Stage) this.btnCancel.getScene().getWindow();
-        getViewFactory().closeStage(stage);
     }
 
     private void setTheme() {

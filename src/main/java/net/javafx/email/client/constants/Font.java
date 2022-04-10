@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 public enum Font {
     SMALL, MEDIUM, BIG;
 
-    public static URL getUrl(Font font) throws MalformedURLException {
+    public static URL getCssUrl(Font font) throws MalformedURLException {
         return switch (font) {
             case SMALL -> Paths.get("src/main/resources/net/javafx/email/client/css/fontSmall.css").toUri().toURL();
             case MEDIUM -> Paths.get("src/main/resources/net/javafx/email/client/css/fontMedium.css").toUri().toURL();

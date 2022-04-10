@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="357.0" prefWidth="486.0"
+<AnchorPane prefHeight="357.0" prefWidth="486.0" fx:id="baseNode"
             xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1">
     <!--fx:controller="net.javafx.email.client.views.OptionsWindow"-->

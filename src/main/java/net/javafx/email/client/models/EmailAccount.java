@@ -5,8 +5,8 @@ import java.util.Properties;
 
 public class EmailAccount {
 
-    private String address;
-    private String password;
+    private final String address;
+    private final String password;
     private Properties properties;
     private Store store;
 
@@ -39,11 +39,23 @@ public class EmailAccount {
         this.password = password;
         properties = new Properties();
         properties.put("incomingHost", "imap.gmail.com");
-        properties.put("mail.store.protocol", "imaps");
-
-        properties.put("mail.transport.protocol", "smtps");
-        properties.put("mail.smtps.host", "smtp.gmail.com");
-        properties.put("mail.smtps.auth", "true");
         properties.put("outgoingHost", "smtp.gmail.com");
+
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.store.protocol", "imaps");
+        properties.put("mail.transport.protocol", "smtps");
+    }
+
+    @Override
+    public String toString() {
+        return "EmailAccount{" +
+                "address='" + address + '\'' +
+                ", password='" + password + '\'' +
+                ", properties=" + properties +
+                ", store=" + store +
+                '}';
     }
 }

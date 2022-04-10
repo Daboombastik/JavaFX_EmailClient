@@ -9,7 +9,7 @@ public enum Controller {
     LoginWindow,
     OptionWindow;
 
-    public static URL getURL(Controller controller) throws MalformedURLException {
+    public static URL getViewURL(Controller controller) throws MalformedURLException {
         return switch (controller) {
             case LoginWindow -> Paths.get("src/main/resources/net/javafx/email/client/views/login_window.fxml").toUri().toURL();
             case MainWindow -> Paths.get("src/main/resources/net/javafx/email/client/views/main_window.fxml").toUri().toURL();

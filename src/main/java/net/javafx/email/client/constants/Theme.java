@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 public enum Theme {
     LIGHT, DARK, DEFAULT;
 
-    public static URL getUrl(Theme theme) throws MalformedURLException {
+    public static URL getCssUrl(Theme theme) throws MalformedURLException {
         return switch (theme) {
             case LIGHT -> Paths.get("src/main/resources/net/javafx/email/client/css/themeLight.css").toUri().toURL();
             case DARK -> Paths.get("src/main/resources/net/javafx/email/client/css/themeDark.css").toUri().toURL();
