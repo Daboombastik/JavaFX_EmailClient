@@ -2,15 +2,15 @@ module net.javafx.email.emailclient {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires javafx.graphics;
+    requires javafx.media;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
-    requires validatorfx;
     requires eu.hansolo.tilesfx;
-//    requires javax.mail.api;
     requires java.mail;
-    requires java.validation;
-//    requires lombok;
+
+    requires static lombok;
 
     opens net.javafx.email.client to javafx.fxml;
     opens net.javafx.email.client.constants to javafx.fxml, lombok;

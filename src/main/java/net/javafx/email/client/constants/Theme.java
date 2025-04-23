@@ -1,18 +1,13 @@
 package net.javafx.email.client.constants;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Paths;
-
 public enum Theme {
-    LIGHT, DARK, DEFAULT;
+    LIGHT("src/main/resources/net/javafx/email/client/css/themeLight.css"),
+    DARK("src/main/resources/net/javafx/email/client/css/themeDark.css"),
+    DEFAULT("src/main/resources/net/javafx/email/client/css/themeDefault.css");
 
-    public static URL getCssUrl(Theme theme) throws MalformedURLException {
-        return switch (theme) {
-            case LIGHT -> Paths.get("src/main/resources/net/javafx/email/client/css/themeLight.css").toUri().toURL();
-            case DARK -> Paths.get("src/main/resources/net/javafx/email/client/css/themeDark.css").toUri().toURL();
-            case DEFAULT -> Paths.get("src/main/resources/net/javafx/email/client/css/themeDefault.css").toUri().toURL();
-            default -> Paths.get("src/main/resources/net/javafx/email/client/css/default.css").toUri().toURL();
-        };
+    public final String path;
+
+    Theme(String path) {
+        this.path = path;
     }
 }

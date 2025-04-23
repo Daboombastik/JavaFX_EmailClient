@@ -8,7 +8,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-import net.javafx.email.client.constants.Controller;
 import net.javafx.email.client.constants.Font;
 import net.javafx.email.client.constants.Theme;
 import net.javafx.email.client.services.ViewService;
@@ -25,14 +24,14 @@ public class OptionsWindowController extends BaseController implements Initializ
     public Slider fontPicker;
     public ChoiceBox<Theme> themePicker;
 
-    public OptionsWindowController(Controller name, EmailService emailService, ViewService viewService) {
-        super(name, emailService, viewService);
+    public OptionsWindowController(ViewService viewService, EmailService emailService) {
+        super(viewService, emailService);
     }
 
     public void applyBtnAction(ActionEvent event) {
-        getViewFactory().setTheme(this.themePicker.getValue());
-        getViewFactory().setFont(Font.values()[(int) this.fontPicker.getValue()]);
-        getViewFactory().updateStyles();
+        getViewService().setTheme(this.themePicker.getValue());
+        getViewService().setFont(Font.values()[(int) this.fontPicker.getValue()]);
+        getViewService().updateStyles();
         closeWindow(this.baseNode);
     }
 
@@ -49,13 +48,13 @@ public class OptionsWindowController extends BaseController implements Initializ
 
     private void setTheme() {
         this.themePicker.setItems(FXCollections.observableArrayList(Theme.values()));
-        this.themePicker.setValue(getViewFactory().getTheme());
+        this.themePicker.setValue(getViewService().getTheme());
     }
 
     private void setFont() {
         this.fontPicker.setMin(0);
         this.fontPicker.setMax(Font.values().length - 1);
-        this.fontPicker.setValue(getViewFactory().getFont().ordinal());
+        this.fontPicker.setValue(getViewService().getFont().ordinal());
         this.fontPicker.setMinorTickCount(0);
         this.fontPicker.setMajorTickUnit(1);
         this.fontPicker.setBlockIncrement(1);
@@ -81,5 +80,4 @@ public class OptionsWindowController extends BaseController implements Initializ
             return null;
         }
     }
-
 }

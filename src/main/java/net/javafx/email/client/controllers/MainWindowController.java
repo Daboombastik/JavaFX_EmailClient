@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.WebView;
-import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.constants.View;
 import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.services.EmailService;
 
@@ -17,12 +17,12 @@ public class MainWindowController extends BaseController implements Initializabl
     public TableView<?> emailsTableView;
     public WebView emailWebView;
 
-    public MainWindowController(Controller name, EmailService emailService, ViewService viewService) {
-        super(name, emailService, viewService);
+    public MainWindowController(ViewService viewService, EmailService emailService) {
+        super(viewService, emailService);
     }
 
     public void optionsAction(ActionEvent actionEvent) {
-        showWindow(Controller.OptionWindow);
+        showWindow(View.OptionsView);
     }
 
     @Override

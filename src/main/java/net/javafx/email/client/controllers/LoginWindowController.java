@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import net.javafx.email.client.constants.Controller;
+import net.javafx.email.client.constants.View;
 import net.javafx.email.client.models.EmailAccount;
 import net.javafx.email.client.services.LoginService;
 import net.javafx.email.client.services.ViewService;
@@ -20,15 +20,15 @@ public class LoginWindowController extends BaseController {
     public PasswordField passwordField;
     public Label message;
 
-    public LoginWindowController(Controller name, EmailService emailService, ViewService viewService) {
-        super(name, emailService, viewService);
+    public LoginWindowController(ViewService viewService, EmailService emailService) {
+        super(viewService, emailService);
     }
 
     public void loginAction(ActionEvent actionEvent) {
 
         if (fieldsAreValid()) {
-//            EmailAccount emailAccount = new EmailAccount(emailField.getText(), passwordField.getText());
-            EmailAccount emailAccount = new EmailAccount(System.getenv("EMAIL_ADDRESS"), System.getenv("EMAIL_PASSWORD"));
+            EmailAccount emailAccount = new EmailAccount(emailField.getText(), passwordField.getText());
+//            EmailAccount emailAccount = new EmailAccount(System.getenv("EMAIL_ADDRESS"), System.getenv("EMAIL_PASSWORD"));
             LoginService loginService = new LoginService(emailAccount, getEmailService());
             loginService.start();
             loginService.setOnSucceeded(event -> {
@@ -36,16 +36,11 @@ public class LoginWindowController extends BaseController {
                     case SUCCESS -> {
                         message.setText("login successful for : " + emailAccount.getAddress());
                         getEmailService().addEmailAccount(emailAccount);
-                        showWindow(Controller.MainWindow);
+                        showWindow(View.MainView);
                         closeWindow(this.baseNode);
                     }
-                    case FAILED_BY_CREDENTIALS -> {
-                        message.setText("invalid credentials!");
-                    }
-                    case FAILED_BY_UNEXPECTED_ERROR -> {
-                        message.setText("unexpected error!");
-                    }
-                    default -> {return;}
+                    case FAILED_BY_CREDENTIALS -> message.setText("invalid credentials!");
+                    case FAILED_BY_UNEXPECTED_ERROR -> message.setText("unexpected error!");
                 }
             });
         }

@@ -2,44 +2,33 @@ package net.javafx.email.client.controllers;
 
 import javafx.scene.Node;
 import javafx.stage.Stage;
-import net.javafx.email.client.constants.Controller;
+import lombok.Getter;
+import lombok.Setter;
+import net.javafx.email.client.constants.View;
 import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.services.EmailService;
 
+@Getter
+@Setter
 public abstract class BaseController {
 
-    private Controller name;
-    private EmailService emailService;
+    private View view;
     private ViewService viewService;
+    private EmailService emailService;
 
-    public BaseController(Controller name, EmailService emailService, ViewService viewService) {
-        this.name = name;
-        this.emailService = emailService;
+    public BaseController(){}
+
+    public BaseController(ViewService viewService, EmailService emailService) {
         this.viewService = viewService;
+        this.emailService = emailService;
     }
 
-    public BaseController() {
+    public void showWindow(View view) {
+        getViewService().show(view);
     }
 
     public void closeWindow(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();
-        getViewFactory().closeStage(stage);
+        getViewService().closeStage(stage);
     }
-
-    public void showWindow(Controller controller) {
-        getViewFactory().show(controller);
-    }
-
-    public EmailService getEmailService() {
-        return emailService;
-    }
-
-    public ViewService getViewFactory() {
-        return viewService;
-    }
-
-    public Controller getName() {
-        return name;
-    }
-
 }
