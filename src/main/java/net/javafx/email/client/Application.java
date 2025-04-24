@@ -1,7 +1,7 @@
 package net.javafx.email.client;
 
 import javafx.stage.Stage;
-import net.javafx.email.client.constants.View;
+import net.javafx.email.client.models.View;
 import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.services.EmailService;
 

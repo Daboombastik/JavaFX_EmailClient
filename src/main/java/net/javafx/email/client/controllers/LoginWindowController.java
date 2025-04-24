@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import net.javafx.email.client.constants.View;
+import net.javafx.email.client.models.View;
 import net.javafx.email.client.models.EmailAccount;
 import net.javafx.email.client.services.LoginService;
 import net.javafx.email.client.services.ViewService;
@@ -29,7 +29,7 @@ public class LoginWindowController extends BaseController {
         if (fieldsAreValid()) {
             EmailAccount emailAccount = new EmailAccount(emailField.getText(), passwordField.getText());
 //            EmailAccount emailAccount = new EmailAccount(System.getenv("EMAIL_ADDRESS"), System.getenv("EMAIL_PASSWORD"));
-            LoginService loginService = new LoginService(emailAccount, getEmailService());
+            LoginService loginService = new LoginService(emailAccount);
             loginService.start();
             loginService.setOnSucceeded(event -> {
                 switch (loginService.getValue()) {

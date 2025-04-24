@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
-import net.javafx.email.client.constants.View;
+import net.javafx.email.client.models.View;
 import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.services.EmailService;
 
@@ -29,6 +29,6 @@ public abstract class BaseController {
 
     public void closeWindow(Node node) {
         Stage stage = (Stage) node.getScene().getWindow();
-        getViewService().closeStage(stage);
+        getViewService().close(stage);
     }
 }

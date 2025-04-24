@@ -6,19 +6,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
-import net.javafx.email.client.constants.View;
-import net.javafx.email.client.constants.Font;
-import net.javafx.email.client.constants.Theme;
+import lombok.extern.java.Log;
+import net.javafx.email.client.interfaces.Resource;
+import net.javafx.email.client.models.View;
+import net.javafx.email.client.models.Font;
+import net.javafx.email.client.models.Theme;
 import net.javafx.email.client.controllers.*;
+import net.javafx.email.client.utils.LogUtils;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 @Getter
 @Setter
+@Log
 public class ViewService {
 
     private final EmailService emailService;
@@ -44,11 +46,8 @@ public class ViewService {
      */
     public void show(View view) {
         try {
-            this.loader.setLocation(this.getUrl(view));
-            this.loader.setControllerFactory(controllerClass -> {
-                System.out.println("Current view controller: " + controllerClass.getName());
-                return controllerFactory.createController(controllerClass);
-            });
+            this.loader.setLocation(this.getUrlFor(view));
+            this.loader.setControllerFactory(controllerFactory::createController);
             Parent root = this.loader.load();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
@@ -56,38 +55,29 @@ public class ViewService {
             stage.show();
             activeStages.add(stage);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtils.logException(log, e, "Failed to load view for controller: " + this.loader.getController().getClass().getSimpleName());
         }
     }
 
-    public void closeStage(Stage stage) {
+    public void close(Stage stage) {
         stage.close();
         activeStages.remove(stage);
     }
 
-    public void updateStyles() {
+    public void update() {
         this.activeStages.forEach(stage -> {
             Scene scene = stage.getScene();
-            try {
-                scene.getStylesheets().clear();
-                scene.getStylesheets().add(this.getUrl(this.font).toExternalForm());
-                scene.getStylesheets().add(this.getUrl(this.theme).toExternalForm());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            scene.getStylesheets().clear();
+            scene.getStylesheets().add(this.getUrlFor(this.font).toExternalForm());
+            scene.getStylesheets().add(this.getUrlFor(this.theme).toExternalForm());
         });
     }
 
-
-    public URL getUrl(View view) throws MalformedURLException {
-        return Paths.get(view.path).toUri().toURL();
-    }
-
-    public URL getUrl(Font font) throws MalformedURLException {
-        return Paths.get(font.path).toUri().toURL();
-    }
-
-    public URL getUrl(Theme theme) throws MalformedURLException {
-        return Paths.get(theme.path).toUri().toURL();
+    public URL getUrlFor(Resource resource) {
+        URL url = getClass().getResource(resource.getPath());
+        if (url == null) {
+            throw new IllegalArgumentException("Resource not found: " + resource.getPath());
+        }
+        return url;
     }
 }

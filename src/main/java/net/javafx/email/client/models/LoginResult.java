@@ -1,4 +1,4 @@
-package net.javafx.email.client.constants;
+package net.javafx.email.client.models;
 
 public enum LoginResult {
     SUCCESS,

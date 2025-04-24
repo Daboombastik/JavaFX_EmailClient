@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TreeView;
 import javafx.scene.web.WebView;
-import net.javafx.email.client.constants.View;
+import net.javafx.email.client.models.View;
 import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.services.EmailService;
 

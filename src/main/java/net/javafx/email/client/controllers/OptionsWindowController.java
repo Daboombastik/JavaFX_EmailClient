@@ -8,8 +8,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
-import net.javafx.email.client.constants.Font;
-import net.javafx.email.client.constants.Theme;
+import net.javafx.email.client.models.Font;
+import net.javafx.email.client.models.Theme;
 import net.javafx.email.client.services.ViewService;
 import net.javafx.email.client.services.EmailService;
 
@@ -31,7 +31,7 @@ public class OptionsWindowController extends BaseController implements Initializ
     public void applyBtnAction(ActionEvent event) {
         getViewService().setTheme(this.themePicker.getValue());
         getViewService().setFont(Font.values()[(int) this.fontPicker.getValue()]);
-        getViewService().updateStyles();
+        getViewService().update();
         closeWindow(this.baseNode);
     }
 
@@ -62,9 +62,7 @@ public class OptionsWindowController extends BaseController implements Initializ
         this.fontPicker.setShowTickMarks(true);
         this.fontPicker.setShowTickLabels(true);
         this.fontPicker.setLabelFormatter(new LabelConverter());
-        this.fontPicker.valueProperty().addListener((obs, oldVal, newVal) -> {
-            this.fontPicker.setValue(newVal.intValue());
-        });
+        this.fontPicker.valueProperty().addListener((obs, oldVal, newVal) -> this.fontPicker.setValue(newVal.intValue()));
     }
 
     private static class LabelConverter extends StringConverter<Double> {
